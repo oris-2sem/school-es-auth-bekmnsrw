@@ -13,4 +13,6 @@ public class NewOrUpdatedParentDto {
     private String firstName;
     private String secondName;
     private String patronymic;
+    private String login;
+    private String password;
 }

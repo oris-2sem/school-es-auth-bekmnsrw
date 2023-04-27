@@ -30,7 +30,8 @@ public class TimetableLineServiceImpl implements TimetableLineService {
     @Override
     public TimetableLineDto save(NewOrUpdatedTimetableLineDto newTimetableLineDto) {
         TimetableLine timetableLine = TimetableLine.builder()
-                .dateTime(newTimetableLineDto.getDateTime())
+                .date(newTimetableLineDto.getDate())
+                .time(newTimetableLineDto.getTime())
                 .roomNumber(newTimetableLineDto.getRoomNumber())
                 .build();
 

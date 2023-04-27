@@ -15,4 +15,6 @@ public class NewOrUpdatedStudentDto {
     private String patronymic;
     private Long clazzId;
     private Long parentId;
+    private String login;
+    private String password;
 }

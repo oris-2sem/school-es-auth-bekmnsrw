@@ -1,0 +1,131 @@
+### Добавление ученика
+POST http://localhost:8080/students
+Content-Type: application/json
+
+{
+  "firstName": "Ilya",
+  "secondName": "Bekmansurov",
+  "patronymic": "Olegovich",
+  "login": "iobekmansurov",
+  "password": "qwerty001"
+}
+
+### Добавление учителя
+POST http://localhost:8080/teachers
+Content-Type: application/json
+
+{
+  "firstName": "Svetlana",
+  "secondName": "Mikhailovna",
+  "patronymic": "Leontieva",
+  "teacherSpeciality": "BIOLOGIST",
+  "login": "smleontieva",
+  "password": "qwerty002"
+}
+
+### Добавление родителя
+POST http://localhost:8080/parents
+Content-Type: application/json
+
+{
+  "firstName": "Marina",
+  "secondName": "Bekamnsurova",
+  "patronymic": "Nikolaevna",
+  "login": "mnbekmansurova",
+  "password": "qwerty003"
+}
+
+### Получение токена студентом
+POST http://localhost:8080/auth/token
+Content-Type: application/x-www-form-urlencoded
+
+login=iobekmansurov&password=qwerty001
+
+### Получение токена учителем
+POST http://localhost:8080/auth/token
+Content-Type: application/x-www-form-urlencoded
+
+login=smleontieva&password=qwerty002
+
+### Получение токена родителем
+POST http://localhost:8080/auth/token
+Content-Type: application/x-www-form-urlencoded
+
+login=mnbekmansurova&password=qwerty003
+
+### Получение RefreshToken'a
+POST http://localhost:8080/auth/token
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJzbWxlb250aWV2YSIsImF1dGhvcml0eSI6IlRFQUNIRVIiLCJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjgwODAvYXV0aC90b2tlbiIsImV4cCI6MTY4MjU3OTUzMn0.l8BvhMeufpWJ0OMey45X0zGrq5vLKT3BE9mbJxnG1O4
+
+### Добавление ребенка
+POST http://localhost:8080/parents/1/children/1
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJtbmJla21hbnN1cm92YSIsImF1dGhvcml0eSI6IlBBUkVOVCIsImV4cCI6MTY4MjUzMzg2M30.GCuYYQkwKC36Rzm42rQ7RuYnDOtExtDt1jOsLiFecrI
+Content-Type: application/json
+
+### Добавление урока
+POST http://localhost:8080/lessons
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJzbWxlb250aWV2YSIsImF1dGhvcml0eSI6IlRFQUNIRVIiLCJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjgwODAvYXV0aC90b2tlbiIsImV4cCI6MTY4MjU3OTUyMH0.C2K2_BBXtvdgnYLfgQGrz2mpCJzv6xKPzPDxjTyMR_s
+Content-Type: application/json
+
+{
+  "subject": "BIOLOGY",
+  "theme": "Prokaryotes"
+}
+
+### Добавление класса
+POST http://localhost:8080/clazzes
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJzbWxlb250aWV2YSIsImF1dGhvcml0eSI6IlRFQUNIRVIiLCJleHAiOjE2ODI1MzQwODR9.mzz3MmIExYOIMcbCP_DuXP6IxVeQAcMWEU2UYjGdqGY
+Content-Type: application/json
+
+{
+  "yearOfBeginningOfStudying": "2010",
+  "litera": "A",
+  "teacherId": "102"
+}
+
+### Добавление задания
+POST http://localhost:8080/tasks
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJzbWxlb250aWV2YSIsImF1dGhvcml0eSI6IlRFQUNIRVIiLCJleHAiOjE2ODI1MzQwODR9.mzz3MmIExYOIMcbCP_DuXP6IxVeQAcMWEU2UYjGdqGY
+Content-Type: application/json
+
+{
+  "taskType": "HW",
+  "description": "Task's description",
+  "mark": "EXCELLENT",
+  "commentary": "Commentary for student",
+  "studentId": "1",
+  "lessonId": "1"
+}
+
+### Добавление расписания
+POST http://localhost:8080/timetablelines
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJzbWxlb250aWV2YSIsImF1dGhvcml0eSI6IlRFQUNIRVIiLCJleHAiOjE2ODI1MzQwODR9.mzz3MmIExYOIMcbCP_DuXP6IxVeQAcMWEU2UYjGdqGY
+Content-Type: application/json
+
+{
+  "date": "2023-04-26",
+  "time": "21:17:00",
+  "roomNumber": "21",
+  "clazzId": "1",
+  "teacherId": "102",
+  "lessonId": "1"
+}
+
+### Получение расписания
+GET http://localhost:8080/timetablelines?page=0
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJtbmJla21hbnN1cm92YSIsImF1dGhvcml0eSI6IlBBUkVOVCIsImV4cCI6MTY4MjU1MTk0MX0.Tn7_hfh5XI7pxUTD0HM1jsPUTedGHr5swUhSrQmSLtA
+Content-Type: application/json
+
+### Обновление родителя
+PUT http://localhost:8080/parents/1
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJtbmJla21hbnN1cm92YSIsImF1dGhvcml0eSI6IlBBUkVOVCIsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6ODA4MC9hdXRoL3Rva2VuIiwiZXhwIjoxNjgyNTc5NTkyfQ.kBeypqzpG0PlD7nf6CBNyZQRgYoiIdyMnVMx4QvJIO0
+Content-Type: application/json
+
+{
+  "firstName": "Oleg",
+  "secondName": "Bekamnsurov",
+  "patronymic": "Nazipovich"
+}
+
+### Остальные запросы basic crud выполняется аналогично
+### Главное, проверили, что SecurityConfig работает корректно

@@ -1,6 +1,6 @@
 package com.example.school.dto.parent;
 
-import com.example.school.dto.student.StudentDto;
+import com.example.school.dto.UserCredentialsDto;
 import com.example.school.model.Parent;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -19,6 +19,7 @@ public class ParentDto {
     private String firstName;
     private String secondName;
     private String patronymic;
+    private UserCredentialsDto userCredentialsDto;
 
     public static ParentDto from(Parent parent) {
         return ParentDto.builder()
@@ -26,6 +27,7 @@ public class ParentDto {
                 .firstName(parent.getFirstName())
                 .secondName(parent.getSecondName())
                 .patronymic(parent.getPatronymic())
+                .userCredentialsDto(UserCredentialsDto.from(parent.getUserCredentials()))
                 .build();
     }
 

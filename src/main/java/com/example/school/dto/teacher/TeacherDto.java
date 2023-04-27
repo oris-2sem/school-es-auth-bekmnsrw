@@ -1,6 +1,6 @@
 package com.example.school.dto.teacher;
 
-import com.example.school.dto.timetable.TimetableLineDto;
+import com.example.school.dto.UserCredentialsDto;
 import com.example.school.model.Teacher;
 import com.example.school.model.util.TeacherSpeciality;
 import lombok.AllArgsConstructor;
@@ -21,6 +21,7 @@ public class TeacherDto {
     private String secondName;
     private String patronymic;
     private TeacherSpeciality teacherSpeciality;
+    private UserCredentialsDto userCredentialsDto;
 
     public static TeacherDto from(Teacher teacher) {
         return TeacherDto.builder()
@@ -29,6 +30,7 @@ public class TeacherDto {
                 .secondName(teacher.getSecondName())
                 .patronymic(teacher.getPatronymic())
                 .teacherSpeciality(teacher.getTeacherSpeciality())
+                .userCredentialsDto(UserCredentialsDto.from(teacher.getUserCredentials()))
                 .build();
     }
 

@@ -34,4 +34,8 @@ public class Teacher {
 
     @OneToMany(mappedBy = "teacher")
     private List<TimetableLine> timetableLines;
+
+    @OneToOne
+    @JoinColumn(name = "user_credentials_id")
+    UserCredentials userCredentials;
 }

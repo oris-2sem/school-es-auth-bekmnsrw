@@ -70,7 +70,7 @@ public class ParentController {
                 .ok(parentService.getChildren(parentId));
     }
 
-    @GetMapping("/{parent-id}/children/{child-id}")
+    @PostMapping("/{parent-id}/children/{child-id}")
     public ResponseEntity<StudentPage> addChild(
             @PathVariable("parent-id") Long parentId,
             @PathVariable("child-id") Long childId

@@ -37,4 +37,8 @@ public class Student {
     @ManyToOne
     @JoinColumn(name = "parent_id")
     private Parent parent;
+
+    @OneToOne
+    @JoinColumn(name = "user_credentials_id")
+    UserCredentials userCredentials;
 }

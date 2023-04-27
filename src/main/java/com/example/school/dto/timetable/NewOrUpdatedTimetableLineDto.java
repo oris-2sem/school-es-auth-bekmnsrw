@@ -5,14 +5,16 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.LocalTime;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
 public class NewOrUpdatedTimetableLineDto {
-    private Date dateTime;
+    private LocalDate date;
+    private LocalTime time;
     private String roomNumber;
     private Long clazzId;
     private Long teacherId;

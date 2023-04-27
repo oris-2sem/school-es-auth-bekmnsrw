@@ -1,6 +1,6 @@
 package com.example.school.dto.student;
 
-import com.example.school.dto.task.TaskDto;
+import com.example.school.dto.UserCredentialsDto;
 import com.example.school.dto.clazz.ClazzDto;
 import com.example.school.dto.parent.ParentDto;
 import com.example.school.model.Student;
@@ -23,16 +23,27 @@ public class StudentDto {
     private String patronymic;
     private ClazzDto clazz;
     private ParentDto parent;
+    private UserCredentialsDto userCredentialsDto;
 
     public static StudentDto from(Student student) {
-        return StudentDto.builder()
+
+        StudentDto studentDto = StudentDto.builder()
                 .id(student.getId())
                 .firstName(student.getFirstName())
                 .secondName(student.getSecondName())
                 .patronymic(student.getPatronymic())
-                .clazz(ClazzDto.from(student.getClazz()))
-                .parent(ParentDto.from(student.getParent()))
+                .userCredentialsDto(UserCredentialsDto.from(student.getUserCredentials()))
                 .build();
+
+        if (student.getClazz() != null) {
+            studentDto.setClazz(ClazzDto.from(student.getClazz()));
+        }
+
+        if (student.getParent() != null) {
+            studentDto.setParent(ParentDto.from(student.getParent()));
+        }
+
+        return studentDto;
     }
 
     public static List<StudentDto> from(List<Student> students) {

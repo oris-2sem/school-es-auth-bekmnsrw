@@ -15,4 +15,6 @@ public class NewOrUpdatedTeacherDto {
     private String secondName;
     private String patronymic;
     private TeacherSpeciality teacherSpeciality;
+    private String login;
+    private String password;
 }

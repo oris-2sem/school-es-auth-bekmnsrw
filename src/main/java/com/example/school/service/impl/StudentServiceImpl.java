@@ -6,19 +6,15 @@ import com.example.school.dto.student.StudentPage;
 import com.example.school.dto.task.TaskDto;
 import com.example.school.dto.task.TaskPage;
 import com.example.school.exception.NotFoundException;
-import com.example.school.model.Clazz;
-import com.example.school.model.Parent;
-import com.example.school.model.Student;
-import com.example.school.model.Task;
-import com.example.school.repository.ClazzRepository;
-import com.example.school.repository.ParentRepository;
-import com.example.school.repository.StudentRepository;
-import com.example.school.repository.TaskRepository;
+import com.example.school.model.*;
+import com.example.school.model.util.Role;
+import com.example.school.repository.*;
 import com.example.school.service.StudentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -31,6 +27,8 @@ public class StudentServiceImpl implements StudentService {
     private final ClazzRepository clazzRepository;
     private final ParentRepository parentRepository;
     private final TaskRepository taskRepository;
+    private final PasswordEncoder passwordEncoder;
+    private final UserCredentialsRepository userCredentialsRepository;
 
     @Value("${application.default-page-size}")
     private Integer defaultPageSize;
@@ -53,14 +51,28 @@ public class StudentServiceImpl implements StudentService {
                 .patronymic(newStudentDto.getPatronymic())
                 .build();
 
+        UserCredentials userCredentials = UserCredentials.builder()
+                .login(newStudentDto.getLogin())
+                .password(passwordEncoder.encode(newStudentDto.getPassword()))
+                .role(Role.STUDENT)
+                .build();
+
+        userCredentialsRepository.save(userCredentials);
+
+        student.setUserCredentials(userCredentials);
+
         if (newStudentDto.getClazzId() != null) {
             Optional<Clazz> clazz = clazzRepository.findById(newStudentDto.getClazzId());
             clazz.ifPresent(student::setClazz);
+        } else {
+            student.setClazz(null);
         }
 
         if (newStudentDto.getParentId() != null) {
             Optional<Parent> parent = parentRepository.findById(newStudentDto.getParentId());
             parent.ifPresent(student::setParent);
+        } else {
+            student.setParent(null);
         }
 
         return StudentDto.from(studentRepository.save(student));

@@ -27,15 +27,23 @@ public class TaskDto {
     private LessonDto lesson;
 
     public static TaskDto from(Task task) {
-        return TaskDto.builder()
+        TaskDto taskDto = TaskDto.builder()
                 .id(task.getId())
                 .taskType(task.getTaskType())
                 .description(task.getDescription())
                 .mark(task.getMark())
                 .commentary(task.getCommentary())
-                .student(StudentDto.from(task.getStudent()))
-                .lesson(LessonDto.from(task.getLesson()))
                 .build();
+
+        if (task.getStudent() != null) {
+            taskDto.setStudent(StudentDto.from(task.getStudent()));
+        }
+
+        if (task.getLesson() != null) {
+            taskDto.setLesson(LessonDto.from(task.getLesson()));
+        }
+
+        return taskDto;
     }
 
     public static List<TaskDto> from(List<Task> tasks) {

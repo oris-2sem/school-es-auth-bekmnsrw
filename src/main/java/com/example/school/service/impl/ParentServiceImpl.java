@@ -8,13 +8,17 @@ import com.example.school.dto.student.StudentPage;
 import com.example.school.exception.NotFoundException;
 import com.example.school.model.Parent;
 import com.example.school.model.Student;
+import com.example.school.model.UserCredentials;
+import com.example.school.model.util.Role;
 import com.example.school.repository.ParentRepository;
 import com.example.school.repository.StudentRepository;
+import com.example.school.repository.UserCredentialsRepository;
 import com.example.school.service.ParentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -25,6 +29,8 @@ public class ParentServiceImpl implements ParentService {
 
     private final ParentRepository parentRepository;
     private final StudentRepository studentRepository;
+    private final PasswordEncoder passwordEncoder;
+    private final UserCredentialsRepository userCredentialsRepository;
 
     @Value("${application.default-page-size}")
     private Integer defaultPageSize;
@@ -36,6 +42,16 @@ public class ParentServiceImpl implements ParentService {
                 .secondName(newParentDto.getSecondName())
                 .patronymic(newParentDto.getPatronymic())
                 .build();
+
+        UserCredentials userCredentials = UserCredentials.builder()
+                .login(newParentDto.getLogin())
+                .password(passwordEncoder.encode(newParentDto.getPassword()))
+                .role(Role.PARENT)
+                .build();
+
+        userCredentialsRepository.save(userCredentials);
+
+        parent.setUserCredentials(userCredentials);
 
         return ParentDto.from(parentRepository.save(parent));
     }

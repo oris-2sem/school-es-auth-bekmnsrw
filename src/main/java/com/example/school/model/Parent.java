@@ -29,4 +29,8 @@ public class Parent {
 
     @OneToMany(mappedBy = "parent")
     private List<Student> children;
+
+    @OneToOne
+    @JoinColumn(name = "user_credentials_id")
+    UserCredentials userCredentials;
 }

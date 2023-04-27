@@ -9,7 +9,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -19,21 +20,34 @@ import java.util.stream.Collectors;
 @Builder
 public class TimetableLineDto {
     private Long id;
-    private Date dateTime;
+    private LocalDate date;
+    private LocalTime time;
     private String roomNumber;
     private ClazzDto clazz;
     private TeacherDto teacher;
     private LessonDto lesson;
 
     public static TimetableLineDto from(TimetableLine timetableLine) {
-        return TimetableLineDto.builder()
+        TimetableLineDto timetableLineDto = TimetableLineDto.builder()
                 .id(timetableLine.getId())
-                .dateTime(timetableLine.getDateTime())
+                .date(timetableLine.getDate())
+                .time(timetableLine.getTime())
                 .roomNumber(timetableLine.getRoomNumber())
-                .clazz(ClazzDto.from(timetableLine.getClazz()))
-                .teacher(TeacherDto.from(timetableLine.getTeacher()))
-                .lesson(LessonDto.from(timetableLine.getLesson()))
                 .build();
+
+        if (timetableLine.getClazz() != null) {
+            timetableLineDto.setClazz(ClazzDto.from(timetableLine.getClazz()));
+        }
+
+        if (timetableLine.getTeacher() != null) {
+            timetableLineDto.setTeacher(TeacherDto.from(timetableLine.getTeacher()));
+        }
+
+        if (timetableLine.getLesson() != null) {
+            timetableLineDto.setLesson(LessonDto.from(timetableLine.getLesson()));
+        }
+
+        return timetableLineDto;
     }
 
     public static List<TimetableLineDto> from(List<TimetableLine> timetableLines) {

@@ -8,13 +8,17 @@ import com.example.school.dto.teacher.TeacherDto;
 import com.example.school.dto.teacher.TeacherPage;
 import com.example.school.model.Teacher;
 import com.example.school.model.TimetableLine;
+import com.example.school.model.UserCredentials;
+import com.example.school.model.util.Role;
 import com.example.school.repository.TeacherRepository;
 import com.example.school.repository.TimetableLineRepository;
+import com.example.school.repository.UserCredentialsRepository;
 import com.example.school.service.TeacherService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -23,6 +27,8 @@ public class TeacherServiceImpl implements TeacherService {
 
     private final TeacherRepository teacherRepository;
     private final TimetableLineRepository timetableLineRepository;
+    private final PasswordEncoder passwordEncoder;
+    private final UserCredentialsRepository userCredentialsRepository;
 
     @Value("${application.default-page-size}")
     private Integer defaultPageSize;
@@ -72,6 +78,16 @@ public class TeacherServiceImpl implements TeacherService {
                 .patronymic(newTeacher.getPatronymic())
                 .teacherSpeciality(newTeacher.getTeacherSpeciality())
                 .build();
+
+        UserCredentials userCredentials = UserCredentials.builder()
+                .login(newTeacher.getLogin())
+                .password(passwordEncoder.encode(newTeacher.getPassword()))
+                .role(Role.TEACHER)
+                .build();
+
+        userCredentialsRepository.save(userCredentials);
+
+        teacher.setUserCredentials(userCredentials);
 
         return TeacherDto.from(teacherRepository.save(teacher));
     }

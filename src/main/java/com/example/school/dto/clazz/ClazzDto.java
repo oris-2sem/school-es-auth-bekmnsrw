@@ -1,8 +1,6 @@
 package com.example.school.dto.clazz;
 
-import com.example.school.dto.student.StudentDto;
 import com.example.school.dto.teacher.TeacherDto;
-import com.example.school.dto.timetable.TimetableLineDto;
 import com.example.school.model.Clazz;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -23,12 +21,17 @@ public class ClazzDto {
     private TeacherDto teacher;
 
     public static ClazzDto from(Clazz clazz) {
-        return ClazzDto.builder()
+        ClazzDto clazzDto = ClazzDto.builder()
                 .id(clazz.getId())
                 .yearOfBeginningOfStudying(clazz.getYearOfBeginningOfStudying())
                 .litera(clazz.getLitera())
-                .teacher(TeacherDto.from(clazz.getTeacher()))
                 .build();
+
+        if (clazz.getTeacher() != null) {
+            clazzDto.setTeacher(TeacherDto.from(clazz.getTeacher()));
+        }
+
+        return clazzDto;
     }
 
     public static List<ClazzDto> from(List<Clazz> clazzes) {
